@@ -35,23 +35,22 @@ namespace finalProject
 			}
 		}
 
-		private int CalcPixelIndex(int x, int y)
-		{
-			return x + y * Width;
-		}
-
 		public DrawFrame DrawText(
 			int x, int y, string text,
 			TerminalColor fgColor = TerminalColor.WHITE, TerminalColor bgColor = TerminalColor.DONT_CARE
 			)
 		{
+			if (y < 0 || y >= Height) return this;
+
 			for (int idx = 0; idx < text.Length; idx++)
 			{
+				if (x + idx >= Width) break;
+
 				TerminalColor targetFGColor = fgColor;
 				TerminalColor targetBGColor = bgColor;
 				if (fgColor == TerminalColor.DONT_CARE) targetFGColor = _pixels[x + idx, y].ForegroundColor;
 				if (bgColor == TerminalColor.DONT_CARE) targetBGColor = _pixels[x + idx, y].BackgroundColor;
-                _pixels[x + idx, y] = new TerminalPixel(text[idx], targetFGColor, targetBGColor);
+				_pixels[x + idx, y] = new TerminalPixel(text[idx], targetFGColor, targetBGColor);
 			}
 
 			return this;
@@ -59,10 +58,36 @@ namespace finalProject
 
 		public DrawFrame DrawRect(int x, int y, int width, int height, TerminalColor color)
 		{
-			for(int rx = 0; rx < height; rx++)
+			if(width < 0)
 			{
-				for(int ry = 0; ry < width; ry++)
+				x += width;
+				width = Math.Abs(width);
+			}
+
+			if (height < 0)
+			{
+				y += height;
+				height = Math.Abs(height);
+			}
+
+			if(x < 0)
+			{
+				width += x;
+				x = 0;
+			}
+
+			if (y < 0)
+			{
+				height += y;
+				y = 0;
+			}
+
+			for (int rx = 0; rx < width; rx++)
+			{
+				if(x + rx >= Width) break;
+				for (int ry = 0; ry < height; ry++)
 				{
+					if(y  + ry >= Height) break;
 					_pixels[x + rx, y + ry] = new TerminalPixel(' ', color, color);
 				}
 			}

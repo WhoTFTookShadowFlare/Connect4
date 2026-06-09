@@ -10,11 +10,15 @@
 			"[-]"
 		};
 
-		ConsoleKey key = ConsoleKey.LeftWindows;
+		ConsoleKey key = ConsoleKey.None;
 		int winWidth = 0, winHeight = 0;
 
+		GameBoard board;
+
 		public Program()
-		{	}
+		{
+			board = new GameBoard();
+		}
 
 		~Program()
 		{	}
@@ -37,7 +41,7 @@
 			{
 				while (Console.KeyAvailable)
 				{
-					key = Console.ReadKey().Key;
+					key = Console.ReadKey(true).Key;
 				}
 
 				DrawFrame frame = SetupDraw();
@@ -46,7 +50,9 @@
 				frame
 					.DrawRect(0, 0, 5, 5, TerminalColor.BRIGHT_RED)
 					.DrawText(3, 0, displays[current], TerminalColor.WHITE, TerminalColor.DONT_CARE)
-                    .DrawText(5, 5, displays[current]);
+					.DrawText(5, 5, displays[current]);
+
+				board.Draw(frame);
 
 				frame.Write(Console.Out);
 				Thread.Sleep((int)Math.Floor(1.0 / 60.0 * 1000));
