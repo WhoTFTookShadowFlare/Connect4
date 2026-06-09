@@ -32,6 +32,7 @@
 		public void Run()
 		{
 			int current = 0;
+			DrawFrame.DefaultPixel.BackgroundColor = TerminalColor.BRIGHT_BLUE;
 			while (key != ConsoleKey.Escape)
 			{
 				while (Console.KeyAvailable)

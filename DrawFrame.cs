@@ -15,6 +15,8 @@ namespace finalProject
 
 		private readonly TerminalPixel[,] _pixels;
 
+		public static TerminalPixel DefaultPixel { get { return defaultPixel; } }
+
 		public int Width { get { return _width; } }
 		public int Height { get { return _height; } }
 
