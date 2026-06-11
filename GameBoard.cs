@@ -6,11 +6,16 @@ using System.Threading.Tasks;
 
 namespace finalProject
 {
-	internal class GameBoard : IDrawable
+	internal class GameBoard : AGameScreen
 	{
 		public GameBoard() { }
 
-		public void Draw(DrawFrame frame)
+        public override void Update(ConsoleKeyInfo input)
+        {
+            
+        }
+
+		public override void Draw(DrawFrame frame)
 		{
             for (int x = 5; x < 19; x++)
             {

@@ -2,22 +2,16 @@
 {
 	internal class Program
 	{
-		string[] displays =
-		{
-			"[\\]",
-			"[|]",
-			"[/]",
-			"[-]"
-		};
-
-		ConsoleKey key = ConsoleKey.None;
+		ConsoleKeyInfo key = new('\0', ConsoleKey.None, false, false, false);
 		int winWidth = 0, winHeight = 0;
 
-		GameBoard board;
+		AGameScreen screen;
+		APlayer? currentPlayer;
+		APlayer? player1, player2;
 
 		public Program()
 		{
-			board = new GameBoard();
+			screen = new GameSetupScreen();
 		}
 
 		~Program()
@@ -35,26 +29,22 @@
 
 		public void Run()
 		{
-			int current = 0;
 			DrawFrame.DefaultPixel.BackgroundColor = TerminalColor.BRIGHT_BLUE;
-			while (key != ConsoleKey.Escape)
+			while (key.Key != ConsoleKey.Escape)
 			{
-				while (Console.KeyAvailable)
-				{
-					key = Console.ReadKey(true).Key;
-				}
+				if (Console.KeyAvailable)
+					do
+					{
+						key = Console.ReadKey(true);
+					} while (Console.KeyAvailable);
+				else key = new('\0', ConsoleKey.None, false, false, false);
+
+				screen.Update(key);
 
 				DrawFrame frame = SetupDraw();
-
-				current = (current + 1) % displays.Length;
-				frame
-					.DrawRect(0, 0, 5, 5, TerminalColor.BRIGHT_RED)
-					.DrawText(3, 0, displays[current], TerminalColor.WHITE, TerminalColor.DONT_CARE)
-					.DrawText(5, 5, displays[current]);
-
-				board.Draw(frame);
-
+				screen.Draw(frame);
 				frame.Write(Console.Out);
+
 				Thread.Sleep((int)Math.Floor(1.0 / 60.0 * 1000));
 			}
 
