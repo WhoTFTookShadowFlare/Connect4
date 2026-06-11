@@ -61,8 +61,17 @@
 
 		static void Main(string[] args)
 		{
-			Program app = new();
-			app.Run();
+			try
+			{
+				Program app = new();
+				app.Run();
+			}
+			catch (Exception e)
+			{
+                Console.WriteLine("A fatal error has occored, please report:");
+                Console.WriteLine(e.Message);
+				Console.WriteLine(e.StackTrace);
+			}
 		}
 	}
 }

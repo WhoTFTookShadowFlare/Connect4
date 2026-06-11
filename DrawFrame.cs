@@ -46,10 +46,17 @@ namespace finalProject
 			{
 				if (x + idx >= Width) break;
 
-				TerminalColor targetFGColor = fgColor;
-				TerminalColor targetBGColor = bgColor;
-				if (fgColor == TerminalColor.DONT_CARE) targetFGColor = _pixels[x + idx, y].ForegroundColor;
-				if (bgColor == TerminalColor.DONT_CARE) targetBGColor = _pixels[x + idx, y].BackgroundColor;
+                TerminalColor targetFGColor = fgColor;
+                TerminalColor targetBGColor = bgColor;
+                if (fgColor == TerminalColor.DONT_CARE) targetFGColor = _pixels[x + idx, y].ForegroundColor;
+                if (bgColor == TerminalColor.DONT_CARE) targetBGColor = _pixels[x + idx, y].BackgroundColor;
+
+                if (text[idx] == '\t' || text[idx] == '\0' || text[idx] == '\n')
+				{
+					_pixels[x + idx, y] = new TerminalPixel(' ', targetFGColor, targetBGColor);
+					continue;
+				}
+
 				_pixels[x + idx, y] = new TerminalPixel(text[idx], targetFGColor, targetBGColor);
 			}
 

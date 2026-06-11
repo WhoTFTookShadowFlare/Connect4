@@ -8,16 +8,16 @@ namespace finalProject
 {
 	internal abstract class AUIWidget : IDrawable
 	{
-		public AUIWidget? NeighborUp { get; set; }
-		public AUIWidget? NeighborDown { get; set; }
-		public AUIWidget? NeighborLeft { get; set; }
-		public AUIWidget? NeighborRight { get; set; }
+		public AUIWidget? NeighborUp { get; set; } = null;
+        public AUIWidget? NeighborDown { get; set; } = null;
+        public AUIWidget? NeighborLeft { get; set; } = null;
+        public AUIWidget? NeighborRight { get; set; } = null;
 
-		public int Left {  get; set; }
-		public int Top { get; set; }
+		public int Left { get; set; } = 0;
+		public int Top { get; set; } = 0;
 
-		public bool CaptureInput { get; protected set; }
-		public bool IsSelected { get; set; }
+		public bool CaptureInput { get; protected set; } = false;
+		public bool IsSelected { get; set; } = false;
 
 		public abstract void Draw(DrawFrame frame);
 		public abstract void Update(ConsoleKeyInfo input);
