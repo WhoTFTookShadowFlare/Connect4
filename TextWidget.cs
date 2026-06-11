@@ -51,10 +51,10 @@ namespace finalProject
 			if (!CaptureInput) return;
 
 			if (input.Key == ConsoleKey.None) return;
-			if(input.Key == ConsoleKey.Delete || input.Key ==ConsoleKey.Backspace)
+			if(input.Key == ConsoleKey.Delete || input.Key == ConsoleKey.Backspace)
 			{
 				if (Text.Length == 0) return;
-				if ((input.Modifiers | ConsoleModifiers.Control) != ConsoleModifiers.None) Text = "";
+				if (input.Modifiers == ConsoleModifiers.Control) Text = "";
 				else Text = Text[..^1];
 				return;
 			}
