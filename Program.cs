@@ -1,17 +1,27 @@
-﻿namespace finalProject
+﻿using finalProject.TerminalEngine;
+using finalProject.TerminalEngine.Graphics;
+
+namespace finalProject
 {
 	internal class Program
 	{
 		ConsoleKeyInfo key = new('\0', ConsoleKey.None, false, false, false);
 		int winWidth = 0, winHeight = 0;
 
-		AGameScreen screen;
-		APlayer? currentPlayer;
-		APlayer? player1, player2;
+		public AGameScreen Screen { get; set; }
+		
+		private static Program? _instance = null;
+		public static Program Instance {
+			get
+			{
+				if (_instance == null) _instance = new Program();
+				return _instance;
+			}
+		}
 
-		public Program()
+		private Program()
 		{
-			screen = new GameSetupScreen();
+			Screen = new GameSetupScreen();
 		}
 
 		~Program()
@@ -39,10 +49,10 @@
 					} while (Console.KeyAvailable);
 				else key = new('\0', ConsoleKey.None, false, false, false);
 
-				screen.Update(key);
+				Screen.Update(key);
 
 				DrawFrame frame = SetupDraw();
-				screen.Draw(frame);
+				Screen.Draw(frame);
 				frame.Write(Console.Out);
 
 				Thread.Sleep((int)Math.Floor(1.0 / 60.0 * 1000));
@@ -63,13 +73,13 @@
 		{
 			try
 			{
-				Program app = new();
+				Program app = Program.Instance;
 				app.Run();
 			}
 			catch (Exception e)
 			{
-                Console.WriteLine("A fatal error has occored, please report:");
-                Console.WriteLine(e.Message);
+				Console.WriteLine("A fatal error has occored, please report:");
+				Console.WriteLine(e.Message);
 				Console.WriteLine(e.StackTrace);
 			}
 		}

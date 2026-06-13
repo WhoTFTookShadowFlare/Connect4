@@ -1,10 +1,11 @@
-﻿using System;
+﻿using finalProject.TerminalEngine.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace finalProject
+namespace finalProject.TerminalEngine
 {
 	internal sealed class TextWidget : AUIWidget
 	{

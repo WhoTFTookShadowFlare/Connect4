@@ -1,4 +1,6 @@
-﻿using System;
+﻿using finalProject.TerminalEngine;
+using finalProject.TerminalEngine.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

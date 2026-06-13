@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace finalProject
+namespace finalProject.TerminalEngine.Graphics
 {
 	public enum TerminalColor
 	{

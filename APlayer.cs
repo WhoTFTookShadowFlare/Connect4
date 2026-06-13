@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace finalProject
 {
-    internal abstract class APlayer
-    {
-        public string Name { get; private set; }
+	internal abstract class APlayer
+	{
+		public string Name { get; private set; }
 
-        protected APlayer(string name)
-        {
-            Name = name;
-        }
+		protected APlayer(string name)
+		{
+			Name = name;
+		}
 
-        public abstract byte? TakeTurn(ConsoleKey input);
-    }
+		public abstract byte? TakeTurn(ConsoleKeyInfo input);
+	}
 }
