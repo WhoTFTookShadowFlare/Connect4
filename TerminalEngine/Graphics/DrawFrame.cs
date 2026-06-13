@@ -1,0 +1,120 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace finalProject.TerminalEngine.Graphics
+{
+	public sealed class DrawFrame
+	{
+		private static readonly TerminalPixel defaultPixel = new TerminalPixel(' ');
+
+		private readonly int _width;
+		private readonly int _height;
+
+		private readonly TerminalPixel[,] _pixels;
+
+		public static TerminalPixel DefaultPixel { get { return defaultPixel; } }
+
+		public int Width { get { return _width; } }
+		public int Height { get { return _height; } }
+
+		public DrawFrame(int width, int height)
+		{
+			_width = width;
+			_height = height;
+
+			_pixels = new TerminalPixel[width, height];
+			for(int x = 0; x < width; x++)
+			{
+				for (int y = 0; y < height; y++)
+				{
+					_pixels[x, y] = defaultPixel;
+				}
+			}
+		}
+
+		public DrawFrame DrawText(
+			int x, int y, string text,
+			TerminalColor fgColor = TerminalColor.WHITE, TerminalColor bgColor = TerminalColor.DONT_CARE
+			)
+		{
+			if (y < 0 || y >= Height) return this;
+
+			for (int idx = 0; idx < text.Length; idx++)
+			{
+				if (x + idx >= Width) break;
+
+				TerminalColor targetFGColor = fgColor;
+				TerminalColor targetBGColor = bgColor;
+				if (fgColor == TerminalColor.DONT_CARE) targetFGColor = _pixels[x + idx, y].ForegroundColor;
+				if (bgColor == TerminalColor.DONT_CARE) targetBGColor = _pixels[x + idx, y].BackgroundColor;
+
+				if (text[idx] == '\t' || text[idx] == '\0' || text[idx] == '\n')
+				{
+					_pixels[x + idx, y] = new TerminalPixel(' ', targetFGColor, targetBGColor);
+					continue;
+				}
+
+				_pixels[x + idx, y] = new TerminalPixel(text[idx], targetFGColor, targetBGColor);
+			}
+
+			return this;
+		}
+
+		public DrawFrame DrawRect(int x, int y, int width, int height, TerminalColor color)
+		{
+			if(width < 0)
+			{
+				x += width;
+				width = Math.Abs(width);
+			}
+
+			if (height < 0)
+			{
+				y += height;
+				height = Math.Abs(height);
+			}
+
+			if(x < 0)
+			{
+				width += x;
+				x = 0;
+			}
+
+			if (y < 0)
+			{
+				height += y;
+				y = 0;
+			}
+
+			for (int rx = 0; rx < width; rx++)
+			{
+				if(x + rx >= Width) break;
+				for (int ry = 0; ry < height; ry++)
+				{
+					if(y  + ry >= Height) break;
+					_pixels[x + rx, y + ry] = new TerminalPixel(' ', color, color);
+				}
+			}
+
+			return this;
+		}
+
+		public void Write(TextWriter output)
+		{
+			StringBuilder frameOutput = new StringBuilder();
+			frameOutput.Capacity = Width * Height + 4096;
+			output.Write("\x1b[H");
+			for (int x = 0; x < Height; x++)
+			{
+				for (int y = 0; y < Width; y++)
+				{
+					frameOutput.Append(_pixels[y, x].ToString());
+				}
+			}
+			output.Write(frameOutput.ToString());
+		}
+	}
+}
