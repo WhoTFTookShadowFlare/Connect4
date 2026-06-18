@@ -10,9 +10,9 @@ namespace finalProject.TerminalEngine
 	internal abstract class AUIWidget : IDrawable
 	{
 		public AUIWidget? NeighborUp { get; set; } = null;
-        public AUIWidget? NeighborDown { get; set; } = null;
-        public AUIWidget? NeighborLeft { get; set; } = null;
-        public AUIWidget? NeighborRight { get; set; } = null;
+		public AUIWidget? NeighborDown { get; set; } = null;
+		public AUIWidget? NeighborLeft { get; set; } = null;
+		public AUIWidget? NeighborRight { get; set; } = null;
 
 		public int Left { get; set; } = 0;
 		public int Top { get; set; } = 0;
