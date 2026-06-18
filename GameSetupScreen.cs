@@ -38,7 +38,10 @@ namespace finalProject
 
 			if(startGame.Pressed)
 			{
-				startGame.Text = player1Name.Text;
+				APlayer player1 = new HumanPlayer(player1Name.Text, 'X');
+				APlayer player2 = new HumanPlayer(player2Name.Text, 'O');
+
+                Program.Instance.Screen = new GameBoard(player1, player2);
 			}
 		}
 
