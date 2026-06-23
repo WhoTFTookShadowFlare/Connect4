@@ -39,7 +39,7 @@ namespace finalProject
 			if(startGame.Pressed)
 			{
 				APlayer player1 = new HumanPlayer(player1Name.Text, 'X');
-				APlayer player2 = new HumanPlayer(player2Name.Text, 'O');
+				APlayer player2 = new AIPlayer(player2Name.Text, 'O', 5);
 
 				Program.Instance.Screen = new GameBoard(player1, player2);
 			}
