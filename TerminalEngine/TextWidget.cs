@@ -16,7 +16,7 @@ namespace finalProject.TerminalEngine
 		public TerminalColor BorderColor {  get; private set; }
 		public TerminalColor CapturedFieldColor { get; private set; }
 		public TerminalColor CapturedTextColor { get; private set; }
-		public TerminalColor HgihlightBorderColor { get; private set; }
+		public TerminalColor HighlightBorderColor { get; private set; }
 
 		public TextWidget(
 			string startingText, int maxLength,
@@ -31,13 +31,13 @@ namespace finalProject.TerminalEngine
 			BorderColor = borderColor;
 			CapturedFieldColor = captureFieldColor;
 			CapturedTextColor = captureTextColor;
-			HgihlightBorderColor = highlightBorderColor;
+			HighlightBorderColor = highlightBorderColor;
 		}
 
 		public override void Draw(DrawFrame frame)
 		{
 			frame
-				.DrawRect(Left, Top, MaxLength + 2, 3, IsSelected ? HgihlightBorderColor : BorderColor)
+				.DrawRect(Left, Top, MaxLength + 2, 3, IsSelected ? HighlightBorderColor : BorderColor)
 				.DrawRect(Left + 1, Top + 1, MaxLength, 1, CaptureInput ? CapturedFieldColor : FieldColor)
 				.DrawText(Left + 1, Top + 1, Text, CaptureInput ? CapturedTextColor : TextColor);
 		}
