@@ -29,6 +29,8 @@ namespace finalProject
 			_player2 = player2;
 		}
 
+		public APlayer?[,] CloneBoard() { return (APlayer?[,]) _board.Clone(); }
+
 		private bool CheckWin(APlayer player)
 		{
 			int[] dx = { 1, 0, 1, 1 };
@@ -85,7 +87,7 @@ namespace finalProject
 				return;
 			}
 		
-			byte? column = CurrentPlayer.TakeTurn(input);
+			byte? column = CurrentPlayer.TakeTurn(input, CloneBoard());
 			if (column is null) return;
 			
 			for (int row = 5; row >= 0; row--)
