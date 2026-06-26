@@ -22,6 +22,10 @@ namespace finalProject
 		public APlayer Player2 { get { return _player2; } }
 		public APlayer CurrentPlayer { get  { return _currentPlayer; } }
 
+		//are you winning son?
+		private List<(int row, int col)> _winningLine = new List<(int row, int col)>();
+		private (int row, int col)? _lastPlacedPiece = null;
+
 		public GameBoard(APlayer player1, APlayer player2)
 		{
 			_player1 = player1;
@@ -46,6 +50,11 @@ namespace finalProject
 					{
 						if (IsLineMatch(row, col, dx[i], dy[i], player))
 						{
+							_winningLine.Clear();
+							for (int step = 0; step < 4; step++)
+							{
+								_winningLine.Add((row + (dy[i] * step), col + (dx[i] * step)));
+							}
 							return true;
 						}
 					}
@@ -95,6 +104,7 @@ namespace finalProject
 				if (_board[row, column.Value] is null)
 				{
 					_board[row, column.Value] = CurrentPlayer;
+					_lastPlacedPiece = (row, column.Value);
 
 					if (CheckWin(CurrentPlayer))
 					{
@@ -133,7 +143,21 @@ namespace finalProject
 
 					if (piece is not null)
 					{
-						TerminalColor fgColor = (piece.Token == 'X') ? TerminalColor.BLUE : TerminalColor.RED;
+						TerminalColor fgColor;
+						if (_gameOver && _winningLine.Any(cell => cell.row == row && cell.col == col))
+						{
+							fgColor = TerminalColor.YELLOW;
+						}
+						else if (_lastPlacedPiece.HasValue && _lastPlacedPiece.Value.row == row && _lastPlacedPiece.Value.col == col)
+						{
+							//Was orginally bright blue and red but they looked very similar so it was hard to even see the difference.
+							fgColor = (piece.Token == 'X') ? TerminalColor.BRIGHT_CYAN : TerminalColor.BRIGHT_MAGENTA;
+						}
+						else
+						{
+							fgColor = (piece.Token == 'X') ? TerminalColor.BLUE : TerminalColor.RED;
+						}
+						
 						TerminalColor bgColor = TerminalColor.BLACK;
 
 						frame.DrawText(6 + col * 2, 11 + row, piece.Token.ToString(), fgColor, bgColor);
